@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link  } from 'react-router-dom';
 import API_URL from '../../services/config';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -21,7 +21,8 @@ const ViewContact: React.FC = () => {
         const response = await axios.get(`${API_URL}/contacts`, {
           params: { country }
         });
-        setContacts(response.data);
+        const sortedContacts = response.data.sort((a, b) => a.firstName.localeCompare(b.firstName));
+        setContacts(sortedContacts);
       } catch (error) {
         console.error('Erreur lors de la récupération des contacts', error);
       }
