@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import API_URL from '../../services/config';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
@@ -13,7 +13,7 @@ const ViewContact: React.FC = () => {
   const [contacts, setContacts] = useState([]);
   const navigate = useNavigate();
   const query = useQuery();
-  const country = query.get('pays');
+  const country = query.get('country');
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -88,23 +88,28 @@ const ViewContact: React.FC = () => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            {/* <th>ID</th> */}
+            <th>ID</th>
             <th>Prénom</th>
             <th>Nom</th>
             <th>Email</th>
             <th>Pays</th>
             <th>Numéro de Téléphone</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {contacts.map(contact => (
             <tr key={contact.id}>
-              {/* <td>{contact.id}</td> */}
+              <td>{contact.id}</td>
               <td>{contact.firstName}</td>
               <td>{contact.lastName}</td>
               <td>{contact.email}</td>
               <td>{contact.country}</td>
               <td>{contact.phone}</td>
+              <td>
+                <Link to={`/edit-contact/${contact.id}`} className="btn btn-warning me-2">Modifier</Link>
+                <Link to={`/delete-contact/${contact.id}`} className="btn btn-danger">Supprimer</Link>
+              </td>
             </tr>
           ))}
         </tbody>
